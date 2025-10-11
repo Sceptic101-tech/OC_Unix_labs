@@ -1,19 +1,21 @@
 #!/bin/sh
-# Компиляция C++ программы
+# Компиляция cpp программы
 # Имя исполняемого файла берется из исходного кода по паттерну
-# Первый аргумент вызова - имя исходного файла
-# Второй аргумент - паттерн
+# первый аргумент вызова - имя исходного файла
+# второй аргумент - паттерн
+
+temp_dir=$(mktemp -d) || exit 3
 
 exit_handler()
 {
     return_code=$?
-    trap - EXIT # Сбрасываем на поведение по умолчанию
+    trap - EXIT
     rm -rf "$temp_dir"
     exit $return_code
 }
 trap exit_handler EXIT TERM INT QUIT
 
-#Проверка существования файла
+# проверка существования файла
 if [ ! -f "$1" ]; then
     echo "Error: File \"$1\" not exists" >&2
     exit 1
@@ -22,11 +24,10 @@ else
     echo "OK: File \"$1\" exists"
 fi
 
-# Извлечение имени файла из скрипта
+# извлечение имени файла из скрипта
 regular=".*$2[[:space:]]*\([^[:space:]]\{1,\}\)"
 compiled_filename=""
 while read line; do
-    # Используем expr для проверки регулярного выражения
     if expr "$line" : "$regular"; then
         compiled_filename=$(expr "$line" : "$regular")
         echo "Match found. Compiled name: $compiled_filename"
@@ -34,15 +35,14 @@ while read line; do
     fi
 done < "$file"
 
-# проверка, нашлось ли совпадение
+# проверка нашлось ли совпадение
 if [ -z "$compiled_filename" ]; then
     echo "Error: \"$2\" pattern not found in a code" >&2
     exit 2
 fi
 
-# Создание временной директории и компиляция
+# компиляция
 origin_dir=$(pwd)
-temp_dir=$(mktemp -d) || exit 3
 
 if ! g++ "$1" -o "$temp_dir/$compiled_filename"; then
     echo "Error: Compilation failed" >&2
