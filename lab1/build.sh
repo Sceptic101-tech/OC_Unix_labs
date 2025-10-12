@@ -30,12 +30,12 @@ compiled_filename=""
 while read line; do
     if expr "$line" : "$regular"; then
         compiled_filename=$(expr "$line" : "$regular")
-        echo "Match found. Compiled name: $compiled_filename"
+        echo "Match found. Filename for compilation: $compiled_filename"
         break
     fi
 done < "$file"
 
-# проверка нашлось ли совпадение
+# проверка, нашлось ли совпадение
 if [ -z "$compiled_filename" ]; then
     echo "Error: \"$2\" pattern not found in a code" >&2
     exit 2
@@ -43,8 +43,9 @@ fi
 
 # компиляция
 origin_dir=$(pwd)
+cd "$temp_dir"
 
-if ! g++ "$1" -o "$temp_dir/$compiled_filename"; then
+if ! g++ "$origin_dir/$1" -o "$compiled_filename"; then
     echo "Error: Compilation failed" >&2
     exit 4
 fi
