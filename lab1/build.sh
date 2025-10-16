@@ -13,7 +13,7 @@ exit_handler()
     rm -rf "$temp_dir"
     exit $return_code
 }
-trap exit_handler EXIT TERM INT QUIT
+trap exit_handler EXIT TERM INT QUIT HUP
 
 # проверка существования файла
 if [ ! -f "$1" ]; then
@@ -28,7 +28,7 @@ fi
 regular=".*$2[[:space:]]*\([^[:space:]]\{1,\}\)"
 compiled_filename=""
 while read line; do
-    if expr "$line" : "$regular"; then
+    if expr "$line" : "$regular">/dev/null; then
         compiled_filename=$(expr "$line" : "$regular")
         echo "Match found. Filename for compilation: $compiled_filename"
         break
