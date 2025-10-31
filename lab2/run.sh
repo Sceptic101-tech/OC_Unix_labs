@@ -7,9 +7,9 @@ container_num=$2; # Количество контейнеров
 
 exit_handler()
 {
+    echo "Остановка контейнеров"
     return_code=$?
     trap - EXIT INT HUP QUIT TERM
-    echo "Остановка контейнеров"
     i=1
     while [ $i -le $container_num ]; do
         docker stop "container_$i"
@@ -27,6 +27,8 @@ while [ $i -le $container_num ]; do
     docker run -d --rm --name "container_$i" --volume $vol_name:/app/shared lab2_unix || exit 2
     i=$((i+1));
 done
+
+echo "Контенеры в работе"
 
 while :; do
 {
