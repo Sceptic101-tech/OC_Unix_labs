@@ -7,7 +7,7 @@ mkdir -p $shared_dir
 lock_file=$shared_dir/.lockfile
 touch $lock_file
 
-exec 404>"$lock_file" # Ставим в соответствие файлу lockfile дескриптор 202
+exec 404>"$lock_file" # Ставим в соответствие файлу lockfile дескриптор 404
 
 while :; do
 	created=""
