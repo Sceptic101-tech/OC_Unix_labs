@@ -7,11 +7,11 @@ mkdir -p $shared_dir
 lock_file=$shared_dir/.lockfile
 touch $lock_file
 
-exec 404>"$lock_file" # Ставим в соответствие файлу lockfile дескриптор 404
+exec 9>"$lock_file" # Ставим в соответствие файлу lockfile дескриптор 9
 
 while :; do
 	created=""
-	flock -x 404
+	flock -x 9
 	i=1
 	while [ $i -le 999 ]; do
 		filename=$(printf %03d $i)
@@ -26,7 +26,7 @@ while :; do
 		i=$((i+1))
 	done
 	
-	flock -u 404
+	flock -u 9
 	
 	if [ -n "$created" ]; then
 		sleep 1

@@ -1,6 +1,6 @@
-FROM alpine:latest
+FROM ubuntu:latest
 
-RUN apk add --no-cache util-linux
+RUN apt-get update && apt-get install -y util-linux
 
 WORKDIR /app
 
