@@ -1,4 +1,5 @@
 .vscode/
-revert.exe
+*.exe
 run.me
 spare_main.cpp
+code_with_hints.cpp
