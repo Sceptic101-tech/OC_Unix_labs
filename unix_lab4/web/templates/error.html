@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Произошла ошибка</title>
+    <style>
+        :root {
+            --bg: #f9f9f9;
+            --text: #333;
+            --accent: #e63946;
+            --font: 'Arial', sans-serif;
+        }
+        body, html {margin:0;padding:0;font-family:var(--font);color:var(--text);}
+        .container {
+            max-width: 600px;
+            margin: 4rem auto;
+            background:#fff;
+            padding:2rem;
+            border-radius:.5rem;
+            box-shadow:0 4px 12px rgba(0,0,0,.1);
+            text-align:center;
+        }
+        h1 {color:var(--accent);margin-bottom:.75rem;}
+        p {font-size:1.05rem;line-height:1.4;}
+    </style>
+</head>
+<body>
+<div class="container" role="alert">
+    <h1>Произошла ошибка при работе</h1>
+    <p>{{ error_cause }}</p>
+</div>
+</body>
+</html>

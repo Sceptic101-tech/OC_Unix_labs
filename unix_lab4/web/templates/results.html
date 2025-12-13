@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Результаты анализа</title>
+
+<style>
+    :root{
+        --bg:#f4f4f4;
+        --text:#222;
+        --accent:#2a9d8f;
+        --font:'Open Sans', sans-serif;
+    }
+    body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);}
+    .container{
+        max-width:1000px;margin:auto;padding:2rem 1rem;
+        text-align:center;
+    }
+    header h1{color:var(--accent);margin-bottom:.5rem;}
+    section{display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;margin-top:2rem;}
+
+    .card{
+        flex:1 1 550px;
+        background:#fff;border-radius:.5rem;
+        box-shadow:0 4px 12px rgba(0,0,0,.08);
+        padding:1.5rem;
+        display:flex;flex-direction:column;align-items:center;
+    }
+    .card h2{margin-bottom:.75rem;font-size:1.25rem;}
+    .card img{
+        max-width:100%;height:auto;border-radius:.3rem;
+        border:4px solid var(--accent);
+    }
+
+</style>
+</head>
+
+<body>
+<div class="container">
+<header>
+    <h1>Результаты анализа</h1>
+</header>
+
+<section>
+    <div class="card">
+        <h2>Позитивные стороны</h2>
+        <img src="{{ positive_img_src }}" alt="Изображение преимуществ товара">
+    </div>
+
+    <div class="card">
+        <h2>Негативные стороны</h2>
+        <img src="{{ negative_img_src }}" alt="Изображение недостатков товара">
+    </div>
+</section>
+</div>
+</body>
+</html>

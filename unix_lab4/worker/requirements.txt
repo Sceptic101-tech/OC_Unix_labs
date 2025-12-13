@@ -1,0 +1,10 @@
+kafka-python
+beautifulsoup4
+pymystem3
+selenium
+wordcloud
+undetected-chromedriver
+transformers
+keybert
+nltk
+hf_xet

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Анализ отзывов ДНС</title>
+
+<style>
+    :root {
+        --bg: #fafafa;
+        --text:#222;
+        --accent:#1d3557;      /* темно‑синий */
+        --btn:#457b9d;         /* светло‑синий */
+        --input:#e0e0e0;
+        --font:'Roboto', sans-serif;
+    }
+    body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);}
+    .container{
+        max-width:700px;margin:auto;padding:2rem 1rem;
+    }
+    header{text-align:center;margin-bottom:2rem;}
+    h1{color:var(--accent);margin-bottom:.5rem;}
+    p{font-size:1.05rem;line-height:1.4;}
+
+    form{
+        background:#fff;border-radius:.5rem;padding:1.5rem;
+        box-shadow:0 3px 10px rgba(0,0,0,.07);
+        display:grid;
+        gap:1rem;
+    }
+    label{font-weight:bold;}
+    input[type="url"],
+    input[type="number"]{
+        width:100%;padding:.75rem;box-sizing:border-box;
+        border:1px solid #bbb;border-radius:.3rem;
+        background:var(--input);
+        font-size:1rem;
+    }
+    button{
+        padding:.75rem 1.5rem;background:var(--btn);color:#fff;
+        border:none;border-radius:.3rem;font-size:1rem;cursor:pointer;
+        transition:.2s ease;
+    }
+    button:hover{background:#366a92;}
+</style>
+</head>
+
+<body>
+<div class="container">
+<header>
+    <h1>Анализ отзывов на товары с сайта ДНС</h1>
+    <p>Иногда бывает сложно определиться с выбором подходящего товара, основываясь на отзывах покупателей.</p>
+</header>
+
+<main>
+<form method="post" novalidate>
+    <label for="review_url_id">URL страницы отзывов</label>
+    <input type="url"
+           id="review_url_id"
+           name="review_url"
+           placeholder="https://www.dns-shop.ru/product/opinion"
+           required>
+
+    <label for="review_cnt_id">Желаемое количество отзывов для анализа</label>
+    <input type="number"
+           id="review_cnt_id"
+           name="review_cnt"
+           value="{{ min_reviews_value }}"
+           min="{{ min_reviews_value }}"
+           max="{{ max_review_value }}"
+           placeholder="от {{ min_reviews_value }} до {{ max_review_value }}">
+    
+    <button type="submit">Проанализировать</button>
+</form>
+</main>
+</div>
+</body>
+</html>

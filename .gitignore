@@ -1,4 +1,8 @@
 .vscode/
+.venv/
+__pycache__/
+prepared_wordclouds/
+*.png
 *.exe
 run.me
 spare_main.cpp
