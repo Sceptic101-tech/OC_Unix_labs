@@ -24,7 +24,7 @@ services:
     environment:
       KAFKA_BROKER: "kafka:9092"
     volumes:
-      - wordclouds_vol : app/prepared_wordclouds
+      - wordclouds_vol:/app/prepared_wordclouds  # Путь должен совпадать с конфигом
 
   worker:
     build: ./worker
@@ -33,9 +33,9 @@ services:
     environment:
       KAFKA_BROKER: "kafka:9092"
     volumes:
-      - wordclouds_vol : app/prepared_wordclouds
+      - wordclouds_vol:/app/prepared_wordclouds  # Путь должен совпадать с конфигом
     deploy:
       replicas: 1
-  
-  volumes:
-  - wordclouds_vol
+
+volumes:
+  wordclouds_vol:

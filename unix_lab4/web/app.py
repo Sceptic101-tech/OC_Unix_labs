@@ -5,6 +5,7 @@ import logging
 import time
 import json
 import os
+import hashlib
 
 error_codes_dict = {1 : 'Неизвестная ошибка',
                     520 : 'Timeout. Не удалось получить экземпляр парсера.',
@@ -44,7 +45,9 @@ def index():
 def analyzing():
     review_url = request.args.get('review_url')
     review_cnt = int(request.args.get('review_cnt'))
-    if os.path.exists(os.path.join(Config.WORDCLOUDS_PATH, review_url)):
+
+    hashed_url = hashlib.sha1(review_url.encode('utf-8')).hexdigest()
+    if os.path.exists(os.path.join(Config.WORDCLOUDS_PATH, hashed_url)):
         return redirect(url_for('results'))
     
     task_data = {
@@ -56,20 +59,21 @@ def analyzing():
 
     start_time = time.time()
     # Ожидаем появления файла
-    while not os.path.exists(os.path.join(Config.WORDCLOUDS_PATH, review_url)):
+    while not os.path.exists(os.path.join(Config.WORDCLOUDS_PATH, hashed_url)):
         if (time.time() - start_time) > Config.ANALYSIS_TIMEOUT:
             logging.error(f'Таймаут ожидания облака слов. Прошло {Config.ANALYSIS_TIMEOUT} секунд')
             return redirect(url_for('error'), 522)
         time.sleep(1)
-    return redirect(url_for('results', review_url=review_url))
+    return redirect(url_for('results', hashed_url=hashed_url))
 
   
 @app.route('/results', methods=['GET'])
 def results():
-   url = request.get('review_url')
+   hashed_url = request.args.get('hashed_url')
+
    return render_template('results.html',
-                                   positive_img_src=os.path.join(Config.WORDCLOUDS_PATH, url, 'positive.png'),
-                                   negative_img_src=os.path.join(Config.WORDCLOUDS_PATH, url, 'negative.png'))
+                                   positive_img_src=os.path.join(Config.WORDCLOUDS_PATH, hashed_url, 'positive.png'),
+                                   negative_img_src=os.path.join(Config.WORDCLOUDS_PATH, hashed_url, 'negative.png'))
 
 @app.route('/error', methods=['GET'])
 def error():
@@ -80,5 +84,5 @@ def error():
         return render_template('error.html', error_cause=error_codes_dict[1])
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=42960, debug=False)
+    app.run(host='0.0.0.0', port=5050, debug=True, threaded=True)
     # app.run(debug=True)

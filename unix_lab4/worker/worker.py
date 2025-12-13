@@ -13,7 +13,7 @@ from scripts.vizualizer import WordCloudGenerator
 from kafka import KafkaConsumer
 from config import Config
 import nltk
-import pathlib
+import hashlib
 
 # Конфигурация Kafka
 KAFKA_BROKER = os.getenv('KAFKA_BROKER')
@@ -83,35 +83,39 @@ def process_task(task_data):
         negative_keywords_dict = text_analyzer.get_dict_keyphrases(negative_raw_keywords_list, threshold=Config.ANALYZER_CONFIDENCE_TRESHOLD)
 
         # Генерация облака слов
-        currrent_wordcloud_path = os.path.join(Config.WORDCLOUDS_PATH, review_url)
-        os.mkdir(currrent_wordcloud_path)
+        hashed_url = hashlib.sha1(review_url.encode('utf-8')).hexdigest()
+        currrent_wordcloud_path = os.path.join(Config.WORDCLOUDS_PATH, hashed_url)
+        os.makedirs(currrent_wordcloud_path, exist_ok=True)
         WordCloudGenerator.generate(positive_keywords_dict, os.path.join(currrent_wordcloud_path, 'positive.png'), save_image=True)
         WordCloudGenerator.generate(negative_keywords_dict, os.path.join(currrent_wordcloud_path, 'negative.png'), save_image=True)
 
     except Exception as ex:
-        logging.error(f'Произошла ошибка {ex.text}')
+        logging.error(f'Произошла ошибка {str(ex)}')
     
     # finally:
     #     if parser_pool.put(parser) is None:
     #         raise Exception('Не удалось вернуть парсер в пул')
 
 # Ожидаем загрузки контейнера с kafka
-time.sleep(15)
-    
-# Инициализация потребителя
-consumer = KafkaConsumer(
-    TOPIC_NAME,
-    bootstrap_servers=[KAFKA_BROKER],
-    group_id=GROUP_ID,
-    value_deserializer=lambda v: json.loads(v.decode('utf-8')),
-    auto_offset_reset='earliest',
-    enable_auto_commit=True)
+max_retries = 5
+retry_delay = 5
+for i in range(1, max_retries):
+    try:
+        consumer = KafkaConsumer(
+            TOPIC_NAME,
+            bootstrap_servers=[KAFKA_BROKER],
+            group_id=GROUP_ID,
+            value_deserializer=lambda v: json.loads(v.decode('utf-8')),
+            auto_offset_reset='earliest',
+            enable_auto_commit=True)
+        break
+    except Exception as e:
+        if i == max_retries:
+            raise
+        time.sleep(retry_delay)
     
 # Обработка сообщений
 for message in consumer:
     task = message.value
     logging.info(f"воркер {worker_id} получил {task}")
     process_task(task)
-        
-    # Обработка задачи
-    result = process_task(task)

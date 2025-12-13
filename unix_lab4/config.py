@@ -10,7 +10,7 @@ class Config:
     REVIEWS_JSON_PATH = os.path.join(DATA_DIR, 'reviews.json')
     RAW_HTML_PATH = os.path.join(DATA_DIR, 'raw_html.txt')
     STATIC_DIR = os.path.join(os.path.dirname(__file__), 'static')
-    WORDCLOUDS_PATH = os.path.join(os.path.dirname(__file__), 'preapred_wordclouds')
+    WORDCLOUDS_PATH = os.path.join('/app/prepared_wordclouds')
 
     # Парсер
     PARSER_WAITING_TIME_LB = 4 # Нижняя граница задержки перед осуществлением действия в браузере
