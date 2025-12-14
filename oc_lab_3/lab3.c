@@ -22,6 +22,3 @@ module_init(module_init);
 module_exit(module_cleanup);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Your Name");
-MODULE_DESCRIPTION("TSU Linux Module");
-MODULE_VERSION("1.0");
