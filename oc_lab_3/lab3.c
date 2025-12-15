@@ -7,18 +7,18 @@
 
 #define procfs_name "tsu"
 
-static int __init module_init(void)
+int __init init_mod(void)
 {
     pr_info("Welcome to the Tomsk State University\n");
     return 0;
 }
 
-static void __exit module_cleanup(void)
+void __exit cleanup_mod(void)
 {
     pr_info("Tomsk State University forever\n");
 }
 
-module_init(module_init);
-module_exit(module_cleanup);
+module_init(init_mod);
+module_exit(cleanup_mod);
 
 MODULE_LICENSE("GPL");
