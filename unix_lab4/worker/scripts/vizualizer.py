@@ -1,5 +1,5 @@
 from wordcloud import WordCloud
-from config import Config
+from worker_config import Config
 
 class WordCloudGenerator:
     """

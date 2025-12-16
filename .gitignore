@@ -4,6 +4,12 @@ __pycache__/
 prepared_wordclouds/
 *.png
 *.exe
-run.me
+*.me
 spare_main.cpp
 code_with_hints.cpp
+*.o
+*.cmd*
+*.ko*
+*.mod*
+*.sym*
+*.order*

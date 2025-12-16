@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-from config import Config
+from worker_config import Config
 import random
 import time
 import os.path
@@ -14,7 +14,6 @@ import os.path
 WAITING_TIME_LB, WAITING_TIME_UB = (Config.PARSER_WAITING_TIME_LB, Config.PARSER_WAITING_TIME_UB)
 
 def extract_reviews(self, raw_html:str) -> list:
-    from bs4 import BeautifulSoup
     """
     Извлекает отзывы из html‑страницы.
 
