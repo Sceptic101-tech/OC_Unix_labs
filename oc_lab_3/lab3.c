@@ -12,7 +12,7 @@
 #endif
 
 #define PROCFS_MAX_SIZE 1024
-#define PROCFS_NAME "lab3_os"
+#define PROCFS_NAME "tsulab"
 
 static struct proc_dir_entry *our_proc_file;
 static char procfs_buffer[PROCFS_MAX_SIZE];
