@@ -26,7 +26,7 @@ static ssize_t procfile_read(struct file *file_pointer, char __user *buffer, siz
     
     unsigned int num_cpus = num_online_cpus();
     
-    len = snprintf(cpu_info, sizeof(cpu_info), "Cores: %u.\nYou need: %u.\n", num_cpus, (16-num_cpus) ? num_cpus <= 16 : 0);
+    len = snprintf(cpu_info, sizeof(cpu_info), "Cores: %u.\nYou need: %u.\n", num_cpus, num_cpus < 16 ? 16 - num_cpus : 0);
     
     if (*offset >= len) {
         ret = 0;
